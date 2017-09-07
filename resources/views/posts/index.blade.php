@@ -6,7 +6,7 @@
 		<h2><a href="{{ route('post_path',['post'=>$post->id])}}">{{ $post->title }}</a>
 
 
-		@if($post->user_id == \Auth::user()->id)
+		@if(Auth::check() && $post->user_id == \Auth::user()->id)
 
 		<small class='pull-right'>
 		<a href="{{ route('edit_post_path',['post'=>$post->id]) }}" class="btn btn-info">Edit</a>
