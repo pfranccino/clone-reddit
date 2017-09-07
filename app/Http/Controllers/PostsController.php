@@ -29,26 +29,52 @@ class PostsController extends Controller
     }
 
     public function create(Post $post)
+
     {
+
+
         return view('posts.create')->with(['post'=>$post]); #se agrego el with ... para darle mas similitud con el edit para simplificar vistas
     }
 
     public function store(CreatePostRequest $request)
     {
-        #una forma de guardar los post
-        // $post = new Post;
-        // $post->title = $request->get('title');
-        // $post->description = $request->get('description');
-        // $post->url = $request->get('url');
-        // $post->save();
+        //guardar post con el id del creador 
+        $post = new Post;
+        $post->fill(
+            $request->only('title','description','url')
+            );
+        $post->user_id = auth()->user()->id;
+        $post->save();
+        session()->flash('message', 'Post Created');
+        return redirect()->route('posts_path');
+
+        /*existen otras formar de traer el id 
+        $post->user_id = $request->user()->id;
+        $post->user_id = \Auth::user()->id;
+        
+
+        $post->save();
+
+        una forma de guardar los post
+        $post = new Post;
+        $post->title = $request->get('title');
+        $post->description = $request->get('description');
+        $post->url = $request->get('url');
+        $post->save();
+
+        otra forma de guardar data
         $post = Post::create($request->only('title', 'description', 'url'));
         $post->save();
         session()->flash('message', 'Post Created');
         return redirect()->route('posts_path');
+        */
     }
 
     public function edit(Post $post)
-    {
+     {
+         if ($post->user_id !=\Auth::user()->id){
+           return redirect()->route('posts_path'); 
+        } 
         return view('posts.edit')->with(['post'=>$post]);
     }
 
@@ -71,6 +97,9 @@ class PostsController extends Controller
 
     public function delete(Post $post)
     {
+        if ($post->user_id !=\Auth::user()->id){
+           return redirect()->route('posts_path'); 
+        } 
         $post->delete();
 
         session()->flash('message', 'Post Deleted');

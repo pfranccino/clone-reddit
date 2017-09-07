@@ -29,5 +29,11 @@ $factory->define(App\Post::class, function (Faker $faker) {
         'title'=>$faker->sentence,
         'description'=>$faker->paragraph,
         'url'=>$faker->url,
+        'user_id'=> function (){
+            return factory(App\User::class)->create()->id;
+        }
+
+
+           /* Aqui estamos creando elementos para testear la base de datos lo que se esta realizando en la funcion anonima es si no existe un usario en la factory se creara uno para que este relacionado con la publicacion */
     ];
 });
