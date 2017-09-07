@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Post; 
+use App\Post;
 use  Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
