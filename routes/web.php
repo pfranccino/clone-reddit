@@ -1,12 +1,5 @@
 <?php
-Route::get('/','PostsController@index');
-Route::name('posts_path')->get('/posts','PostsController@index');
-Route::name('post_path')->get('/posts/{post}','PostsController@show');
-
-
 Auth::routes();
-
-
 /*Esto se puede realizar si se quieren agrupar rutas para darles un mismo parametro en este caso el middleware auth*/
 Route::group(['middleware'=>'auth'],function(){
 	Route::get('/home', 'HomeController@index')->name('home');
@@ -17,3 +10,6 @@ Route::group(['middleware'=>'auth'],function(){
 	Route::name('delete_post_path')->delete('/posts/{post}','PostsController@delete');
 	});
 
+Route::get('/','PostsController@index');
+Route::name('posts_path')->get('/posts','PostsController@index');
+Route::name('post_path')->get('/posts/{post}','PostsController@show');
