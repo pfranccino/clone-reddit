@@ -13,12 +13,13 @@ class PostsController extends Controller
     {
         /*Aqui podemos paginas cuando tenemos muchos elementos
 
-        #traemos los post en forma ordenado descendente
-        #$posts = Post::orderBy('id','desc')->get();
+        traemos los post en forma ordenado descendente
+        $posts = Post::orderBy('id','desc')->get();
        */ #$posts = Post::all(); aqui traemos todos los post
-        $posts = Post::orderBy('id', 'desc')->paginate(15);
+        $posts = Post::with('user')->orderBy('id', 'desc')->paginate(15);
+         return view('posts.index')->with(['posts'=>$posts]);
 
-        return view('posts.index')->with(compact('posts'));
+        //return view('posts.index')->with(compact('posts'));
     }
 
     public function show(Post $post)
